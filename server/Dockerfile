@@ -1,10 +1,12 @@
-FROM node:latest
+FROM node:alpine
 
 ENV PORT=5000
 
-WORKDIR /app
+WORKDIR /server
+
 COPY . .
-RUN yarn --non-interactive install
+
+RUN yarn --non-interactive
 
 CMD ["yarn", "start"]
 

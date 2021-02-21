@@ -1,8 +1,10 @@
-FROM node:latest
+FROM node:alpine
 
-WORKDIR /app
+WORKDIR /web-app
+
 COPY . .
-RUN yarn --non-interactive install
+
+RUN yarn --non-interactive
 
 CMD ["yarn", "start"]
 

@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const apolloServer = require("./graphql");
 
 // Configs
-const { serverConfig } = require("./config");
+const { serverConfig } = require("./configs");
 
 // Apply middleware for express
 app.use(cors());
