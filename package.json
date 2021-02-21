@@ -1,0 +1,10 @@
+{
+  "name": "PaperTrading",
+  "version": "1.0.0",
+  "description": "PaperTrading project",
+  "main": "index.js",
+  "repository": "https://github.com/biem97/PaperTrading.git",
+  "author": "Son Nguyen <biem97@github.com>",
+  "license": "MIT",
+  "private": false
+}

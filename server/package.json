@@ -1,0 +1,26 @@
+{
+  "name": "graphqlserver",
+  "version": "1.0.0",
+  "description": "Apollo Server to handle APIs and communicate with the web app by using GraphQL",
+  "main": "src/index.js",
+  "repository": "https://github.com/biem97/PaperTrading.git",
+  "author": "Son Nguyen",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "apollo-server": "^2.21.0",
+    "apollo-server-express": "^2.21.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "graphql": "^15.5.0",
+    "helmet": "^4.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "prettier": "2.2.1"
+  },
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "proxy": "localhost:5000"
+}
