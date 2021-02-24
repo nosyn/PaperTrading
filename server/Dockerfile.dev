@@ -6,11 +6,11 @@ WORKDIR /server
 
 COPY package.json yarn.lock ./
 
-RUN yarn --non-interactive --production
+RUN yarn --non-interactive --development
 
 COPY . .
 
-CMD ["yarn","run" ,"start"]
+CMD ["yarn","run" ,"start:dev"]
 
 
 

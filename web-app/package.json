@@ -57,6 +57,5 @@
       "src/index.js",
       "src/reportWebVitals.js"
     ]
-  },
-  "proxy": "http://localhost:5000"
+  }
 }

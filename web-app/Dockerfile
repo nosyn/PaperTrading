@@ -1,13 +1,9 @@
 FROM node:alpine
 
 WORKDIR /web-app
-
+RUN pwd
 COPY . .
 
-RUN yarn --non-interactive
+RUN yarn --non-interactive install
 
-CMD ["yarn", "start"]
-
-
-
-
+CMD ["yarn", "run", "start"]

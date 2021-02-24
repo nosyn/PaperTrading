@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const apolloServer = require("./graphql");
 
 // Configs
-const { serverConfig } = require("./configs");
+const { serverConfigs } = require("./configs");
 
 // Apply middleware for express
 app.use(cors());
@@ -26,7 +26,7 @@ app.get("/test", (_req, res, next) => {
   res.status(200).send("Hello");
 });
 
-app.listen(serverConfig.PORT, () => {
+app.listen(serverConfigs.PORT, () => {
   console.log(`Server is starting up`);
-  console.log(`Listening on port ${serverConfig.PORT}`);
+  console.log(`Listening on port ${serverConfigs.PORT}`);
 });

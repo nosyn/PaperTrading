@@ -6,5 +6,9 @@
   "repository": "https://github.com/biem97/PaperTrading.git",
   "author": "Son Nguyen <biem97@github.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "start": "docker-compose up",
+    "start:dev": "docker-compose -f docker-compose.dev.yml up" 
+  }
 }
