@@ -1,8 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # testing
-
-# misc
+coverage
 
 # package manager
 npm-debug.log*
@@ -14,5 +13,15 @@ yarn-error.log*
 .vscode/
 
 # auto dirs
-build/
-node_modules/
+build
+node_modules
+
+# production
+build
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+

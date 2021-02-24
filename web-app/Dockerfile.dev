@@ -1,0 +1,11 @@
+FROM node:alpine
+
+WORKDIR /web-app
+
+COPY package.json yarn.lock ./
+
+RUN yarn install --development
+
+COPY . .
+
+CMD ["yarn", "run", "start"]
