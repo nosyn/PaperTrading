@@ -1,22 +1,30 @@
-import { useQuery } from "@apollo/client";
 import React from "react";
 
-// Queries
-import GET_RATES from "../graphql/queries/GET_RATES";
+// Themer wrapper && Material UI
+import Themer from "./theme";
+import { CssBaseline } from "@material-ui/core"; // Material-UI provides a CssBaseline component to kickstart an elegant, consistent, and simple baseline to build upon.
+
+// React Helmets
+import { Helmet, HelmetProvider } from "react-helmet-async";
+// Components
+import MultipleCards from "./MultipleCards";
 
 function App() {
-  const { loading, error, data } = useQuery(GET_RATES);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  return data.rates.map(({ currency, rate }) => (
-    <div key={currency}>
-      <p>
-        {currency}: {rate}
-      </p>
-    </div>
-  ));
+  return (
+    <HelmetProvider>
+      <Helmet>
+        <title>Paper Trading</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+      </Helmet>
+      <Themer>
+        <CssBaseline />
+        <MultipleCards />
+      </Themer>
+    </HelmetProvider>
+  );
 }
 
 export default App;
