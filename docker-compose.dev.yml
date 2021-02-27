@@ -1,7 +1,22 @@
 version: "3.7"
 
+networks:
+  frontend: # nginx <--> web_app
+  backend: # nginx <--> web-server
+
 services:
-version: "3.7"
+  web-server:
+    volumes:
+      - /web-server:/web-server/ #first web-server is name of container --- second web-server is folder where all all files save
+    build:
+      context: ./server # where to look for Dockerfile
+      dockerfile: Dockerfile.dev # what dockerfile
+    environment:
+      PORT: 5000
+    # ports:
+    #   - 5000:5000      # DON'T map the container port to user localhost, let nginx do it
+    networks:
+      - backend
 
 services: 
   web-app:
@@ -16,16 +31,22 @@ services:
     ports:
       - 3123:4000 # map the localhost 3123 -> 4000
     environment:
-      PORT: 4000 # set port of react app inside docker container to 4000
-      REACT_APP_APOLLO_URI: http://localhost:5000/graphql
-    links:
-      - server
-  server:
-    container_name: server
+      PORT: 4000 # set port of react app inside docker container to 4000 instead of 3000 (default)
+    # ports:
+    #   - 4000:4000 # map the localhost 4000 -> 4000 # DON'T map the container port to user localhost, let nginx do it
+    networks:
+      - frontend
+
+  nginx:
+    restart: always
     build:
-      context: ./server # where to look
-      dockerfile: Dockerfile.dev # what dockerfile
-    environment:
-      PORT: 5000
+      context: ./nginx # where to look for Dockerfile
+      dockerfile: Dockerfile # what dockerfile
     ports:
-      - 5000:5000
+      - 1997:997 # ONLY nginx map the host to  user localhost
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - web-app
+      - web-server
