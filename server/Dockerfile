@@ -2,7 +2,7 @@ FROM node:alpine
 
 ENV PORT=5000
 
-WORKDIR /server
+WORKDIR /web-server
 
 COPY package.json yarn.lock ./
 

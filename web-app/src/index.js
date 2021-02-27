@@ -7,6 +7,9 @@ import reportWebVitals from "./reportWebVitals";
 import { ApolloProvider } from "@apollo/client";
 import client from "./graphql/index";
 
+//robot font
+import "@fontsource/roboto";
+
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
