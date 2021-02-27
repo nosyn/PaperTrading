@@ -18,18 +18,13 @@ services:
     networks:
       - backend
 
-services: 
   web-app:
-    container_name: web-app
     stdin_open: true # needed to allow react-scripts to watch for changes
     build:
-      context: ./web-app # where to look
+      context: ./web-app # where to look for Dockerfile
       dockerfile: Dockerfile.dev # what dockerfile
     volumes:
-      - ./web-app:/app/
-      - /app/node_modules
-    ports:
-      - 3123:4000 # map the localhost 3123 -> 4000
+      - ./web-app:/web-app/ #first web-app is name of container --- second web-app is folder where all all files save
     environment:
       PORT: 4000 # set port of react app inside docker container to 4000 instead of 3000 (default)
     # ports:
