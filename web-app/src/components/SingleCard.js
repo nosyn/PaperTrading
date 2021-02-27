@@ -13,14 +13,11 @@ const useStyles = makeStyles({
     minWidth: 275,
     maxWidth: 350,
     minHeight: 150,
-    margin: 30,
+    margin: "0 10px",
     borderLeft: "6px solid red",
     backgroundColor: "lightgrey",
-  },
-  bullet: {
     display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
+    transform: "scale(0.9)",
   },
   title: {
     fontSize: 14,

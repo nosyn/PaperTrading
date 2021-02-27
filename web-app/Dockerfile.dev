@@ -4,7 +4,7 @@ WORKDIR /web-app
 
 COPY package.json yarn.lock ./
 
-RUN yarn install --development
+RUN yarn install --production=false --silent
 
 COPY . .
 
