@@ -11,13 +11,6 @@ import { green, lightGreen, blue, lightBlue } from "@material-ui/core/colors";
 const Themer = ({ children }) => {
   const themePreference = "light";
 
-  // Lowest Values Possible w/ current fontSize
-  const toolbarHeights = {
-    mobile: 35,
-    tabletDesktop: 35,
-    default: 35,
-  };
-
   let theme = createMuiTheme({
     palette: {
       type: themePreference,
@@ -35,21 +28,6 @@ const Themer = ({ children }) => {
     },
   });
 
-  theme = {
-    ...theme,
-    mixins: {
-      ...theme.mixins,
-      toolbar: {
-        minHeight: toolbarHeights.default,
-        [`${theme.breakpoints.up("xs")} and (orientation: landscape)`]: {
-          minHeight: toolbarHeights.mobile,
-        },
-        [theme.breakpoints.up("sm")]: {
-          minHeight: theme.tabletDesktop,
-        },
-      },
-    },
-  };
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 
