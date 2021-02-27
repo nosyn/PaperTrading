@@ -1,18 +1,14 @@
 version: "3.7"
 
-services:
-version: "3.7"
+networks:
+  frontend: # nginx <--> web_app
+  backend: # nginx <--> graph-bridge
+  # data: # graph-bridge <--> database
 
-services: 
-  # nginx:
-  #   restart: always
-  #   build:
-  #     context: ./nginx
-  #   ports:
-  #     - 5678:80
+services:
   web-server:
-    volumes: 
-      - /web-server:/web-server/
+    volumes:
+      - /web-server:/web-server/ #first web-server is name of container --- second web-server is folder where all all files save
     build:
       context: ./server # where to look for Dockerfile
       dockerfile: Dockerfile.dev # what dockerfile
@@ -20,6 +16,8 @@ services:
       PORT: 5000
     ports:
       - 5000:5000
+    networks:
+      - backend
 
   web-app:
     stdin_open: true # needed to allow react-scripts to watch for changes
@@ -27,10 +25,25 @@ services:
       context: ./web-app # where to look for Dockerfile
       dockerfile: Dockerfile.dev # what dockerfile
     volumes:
-      - ./web-app:/web-app/
-    ports:
-      - 4000:4000 # map the localhost 4000 -> 4000
+      - ./web-app:/web-app/ #first web-app is name of container --- second web-app is folder where all all files save
     environment:
       PORT: 4000 # set port of react app inside docker container to 4000 instead of 3000 (default)
       REACT_APP_APOLLO_URI: http://localhost:5000/graphql
-    
+    ports:
+      - 4000:4000 # map the localhost 4000 -> 4000
+    networks:
+      - frontend
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 2000:997
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - web-app
+      - web-server
