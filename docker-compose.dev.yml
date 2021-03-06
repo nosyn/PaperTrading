@@ -1,18 +1,19 @@
 version: "3.7"
 
 networks:
-  frontend: # nginx <--> web_app
+  frontend: # nginx <--> web-app
   backend: # nginx <--> web-server
 
 services:
   web-server:
     volumes:
-      - /web-server:/web-server/ #first web-server is name of container --- second web-server is folder where all all files save
+      - ./web-server:/web-server/ #first web-server is path to src app --- second web-server is folder where all all files save
     build:
-      context: ./server # where to look for Dockerfile
+      context: ./web-server # where to look for Dockerfile
       dockerfile: Dockerfile.dev # what dockerfile
     environment:
       PORT: 5000
+      MONGO_URI: mongodb+srv://biem97:8uf3aBFLyW3YNzb4@papertrading.8wat4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
     # ports:
     #   - 5000:5000      # DON'T map the container port to user localhost, let nginx do it
     networks:
@@ -24,7 +25,7 @@ services:
       context: ./web-app # where to look for Dockerfile
       dockerfile: Dockerfile.dev # what dockerfile
     volumes:
-      - ./web-app:/web-app/ #first web-app is name of container --- second web-app is folder where all all files save
+      - ./web-app:/web-app/ #first web-app is path to src app --- second web-app is folder where all all files save
     environment:
       PORT: 4000 # set port of react app inside docker container to 4000 instead of 3000 (default)
     # ports:

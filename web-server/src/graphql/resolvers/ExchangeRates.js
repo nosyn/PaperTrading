@@ -9,7 +9,7 @@ module.exports = async (_parent, { currency }, _context, _info) => {
       (c) => c.id.toUpperCase() === currency
     );
     return currencyInfo ? currencyInfo.name : null;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(`Error while fetching data from Coinbase: ${error}`);
   }
 };

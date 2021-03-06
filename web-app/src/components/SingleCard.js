@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     maxWidth: 350,
     minHeight: 150,
     margin: "0 10px",
-    borderLeft: "6px solid red",
+    borderLeft: "6px solid green",
     backgroundColor: "lightgrey",
     display: "inline-block",
     transform: "scale(0.9)",

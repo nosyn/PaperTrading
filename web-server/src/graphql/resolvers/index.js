@@ -3,8 +3,7 @@ const authors = require("./authors");
 const addBook = require("./addBook");
 const rates = require("./rates");
 const ExchangeRates = require("./ExchangeRates");
-
-const fetch = require("node-fetch");
+const registerUser = require("./registerUser");
 
 // Combine all resolvers
 module.exports = {
@@ -15,6 +14,7 @@ module.exports = {
   },
   Mutation: {
     addBook: addBook,
+    registerUser: registerUser,
   },
   ExchangeRate: ExchangeRates,
 };
