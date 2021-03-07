@@ -9,7 +9,10 @@ const argsSchema = yup
       .object()
       .shape({
         name: yup.string().required("Missing name"),
-        email: yup.string().email().required("Missing user email"),
+        email: yup
+          .string()
+          .email("Must be a valid email")
+          .required("Missing user email"),
         password: yup.string().required("Missing password"),
       })
       .required()
