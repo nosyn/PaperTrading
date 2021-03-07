@@ -1,6 +1,7 @@
-const { UserInputError } = require("apollo-server-express");
-const yup = require("yup");
-const User = require("../../models/User");
+const { UserInputError } = require("apollo-server-express"); // Error throw
+const yup = require("yup"); // Schema Validation
+const User = require("../../models/User"); // User Schema
+const bcrypt = require("bcryptjs");
 
 const argsSchema = yup
   .object()
@@ -19,18 +20,12 @@ const argsSchema = yup
       .default(null)
       .nullable(),
   })
-  .required("User Info is missing")
+  .required("User Register Info is missing")
   .default(null)
   .nullable();
 
 module.exports = async (_parent, args, _context, _info) => {
-  const { name, email, password } = args.input;
-  const userInfo = new User({
-    name,
-    email,
-    password,
-  });
-
+  // Arguments validation
   try {
     // Validate -> pass
     await argsSchema.validate(args);
@@ -38,17 +33,38 @@ module.exports = async (_parent, args, _context, _info) => {
     throw new UserInputError(`Invalid Argument: ${error}`);
   }
 
-  await User.findOne({ email }).then((user) => {
-    if (user) {
-      throw new UserInputError("Email already exists");
-    }
-    // Nothing wrong -> save to database
-    userInfo.save();
+  // Pass validation
+  const { name, email, password } = args.input;
+
+  // Find if there is an exist email from database
+  const user = await User.findOne({ email });
+
+  // Throw if there is an exist email
+  if (user) {
+    throw new Error("Email already exists");
+  }
+
+  // Nothing wrong -> hash the password -> save to database
+  bcrypt.genSalt(10, (_err, salt) => {
+    bcrypt.hash(password, salt, (_err, hash) => {
+      // Store hash in your password DB.
+      const userInfo = new User({
+        name,
+        email,
+        password: hash,
+      });
+      userInfo
+        .save()
+        .then((user) => console.log(`User: ${user.email} is registered!!!`))
+        .catch((error) => {
+          throw new Error(error);
+        });
+    });
   });
 
   return {
     name,
     email,
-    password,
+    message: "Successfully registered! Welcome to Paper Trading <3",
   };
 };

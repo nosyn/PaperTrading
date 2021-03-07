@@ -4,6 +4,7 @@ const addBook = require("./addBook");
 const rates = require("./rates");
 const ExchangeRates = require("./ExchangeRates");
 const registerUser = require("./registerUser");
+const loginUser = require("./loginUser");
 
 // Combine all resolvers
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
   Mutation: {
     addBook: addBook,
     registerUser: registerUser,
+    loginUser: loginUser,
   },
   ExchangeRate: ExchangeRates,
 };

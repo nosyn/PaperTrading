@@ -28,7 +28,18 @@ module.exports = gql`
   type User {
     name: String!
     email: String!
-    password: String!
+  }
+
+  type RegisterUser {
+    name: String!
+    email: String!
+    message: String!
+  }
+
+  type LoginUser {
+    name: String!
+    email: String!
+    jwt_token: String!
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -43,12 +54,18 @@ module.exports = gql`
 
   type Mutation {
     addBook(title: String, author: String): Book
-    registerUser(input: RegisterInput!): User!
+    registerUser(input: RegisterInput!): RegisterUser!
+    loginUser(input: LoginInput!): LoginUser!
   }
 
   ### Inputs start here
   input RegisterInput {
     name: String!
+    email: String!
+    password: String!
+  }
+
+  input LoginInput {
     email: String!
     password: String!
   }
