@@ -3,13 +3,6 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
-import { configure } from "enzyme";
-// Current version of React is 17.
-import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
-import { act } from "react-dom/test-utils";
-
-// Setup Enzyme
-configure({ adapter: new Adapter() });
 
 if (process.env.CI) {
   global.console = {
@@ -22,12 +15,3 @@ if (process.env.CI) {
     debug: console.debug,
   };
 }
-
-global.testUtils = {
-  wait: async (wrapper) => {
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0));
-      wrapper.update();
-    });
-  },
-};
