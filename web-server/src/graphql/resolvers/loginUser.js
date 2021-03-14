@@ -55,16 +55,19 @@ module.exports = async (_parent, args, context, _info) => {
   const payload = { name: user.name, email: user.email };
 
   // Successfully login, sign the payload with secret key and create a token
-  const secretToken = await jwt.sign(payload, keys.secretOrKey, {
-    expiresIn: 86400, // 1 day in seconds
-  });
+  const secretToken = await jwt.sign(
+    { _id: user._id, ...payload },
+    keys.secretOrKey,
+    {
+      expiresIn: 86400, // 1 day in seconds
+    }
+  );
 
   // add secretToken as cookie
   context.reqResponse.cookie("secretToken", secretToken, {
     httpOnly: true,
     maxAge: 86400,
   });
-
   // Return a signed payload
-  return payload;
+  return { ...payload, name: secretToken };
 };

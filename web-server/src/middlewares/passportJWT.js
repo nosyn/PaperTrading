@@ -1,38 +1,59 @@
 // https://github.com/mikenicholson/passport-jwt
-const { ExtractJwt, Strategy } = require("passport-jwt");
+// TODO: FIND A SOLUTION FOR AUTHENTICATION WITH JWT AND SECRET TOKEN
+// TODO: SEND REQUEST WITH AUTHORIZATION HEADER FROM CLIENT
+// ? HOW TO SEPARATE SECRET TOKEN WITH JWT TOKEN IN AUTHORIZATION HEADER
 
+const { ExtractJwt, Strategy } = require("passport-jwt");
+const passport = require("passport");
 // Secrets
 const keys = require("../../.env/keys");
-
 const User = require("../models/User");
-// const mongoose = require("mongoose");
-// const User = mongoose.model("users");
+const jwt = require("jsonwebtoken");
 
 const jwtOptions = {
+  issuer: "Son Nguyen",
   secretOrKey: keys.secretOrKey,
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   passReqToCallback: true,
 };
 
-// console.log(
-//   "ExtractJwt.fromAuthHeaderAsBearerToken(): ",
-//   ExtractJwt.fromAuthHeaderAsBearerToken()
-// );
+const verifyCallback = async (_req, payload, done) => {
+  try {
+    // BAH - This is what is actually getting stored in the context as the currentUser
+    const user = await User.findById(payload._id);
+    return user ? done(null, user) : done(null, null);
+  } catch (err) {
+    return done(err);
+  }
+};
 
-module.exports = (passport) => {
-  passport.use(
-    new Strategy(jwtOptions, async (jwt_payload, done) => {
-      const { err, user } = await User.findById(jwt_payload.id);
+const jwtStrategy = new Strategy(jwtOptions, verifyCallback);
 
-      if (err) {
-        return done(err, false);
-      }
+// Have to define the strategy before initialize
+passport.use(jwtStrategy);
+passport.initialize();
 
-      if (user) {
-        return done(null, user);
-      }
+// returns a function(err,user,info)
+// doing it this way to aid unit testing
+const getAuthenticationCallback = (req, res, next) => (err, user) => {
+  // if (!!req.cookies && !!req.cookies.secretToken) {
+  //   req.secretToken = req.cookies.secretToken;
+  // }
+  next();
+};
 
-      return done(null, false);
-    })
+const middleware = (req, res, next) => {
+  const passportMiddleware = passport.authenticate(
+    "jwt",
+    { session: false },
+    getAuthenticationCallback(req, res, next) // returns a function(err,user,info)
   );
+
+  passportMiddleware(req, res, next);
+};
+
+module.exports = {
+  middleware,
+  getAuthenticationCallback,
+  verifyCallback,
 };

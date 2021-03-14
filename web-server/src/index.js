@@ -6,8 +6,7 @@ const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
-const passport = require("passport");
-require("./middlewares/passportJWT")(passport);
+const passportJWT = require("./middlewares/passportJWT");
 
 // Apollo Server
 const apolloServer = require("./graphql");
@@ -27,7 +26,7 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(passport.initialize());
+app.use("/graphql", passportJWT.middleware);
 
 apolloServer.applyMiddleware({ app, cors: true });
 

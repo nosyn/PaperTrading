@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory, Link as RouterLink } from "react-router-dom";
 
 // Apollo Hooks
 import { useMutation } from "@apollo/client";
@@ -68,13 +69,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const RegisterPage = () => {
-  const classes = useStyles();
-
   // Top hooks
+  const classes = useStyles();
+  const history = useHistory();
+
   // *Apollo hooks
   const [registerUser] = useMutation(REGISTER_USER, {
     onCompleted: (data) => {
       console.log("GRAPHQL Successful: ", data);
+      history.push("/");
     },
     onError: (error) => {
       console.log("GRAPHQL Error: ", error);
@@ -203,8 +206,8 @@ export const RegisterPage = () => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/" variant="body2">
-                Already have an account? Sign in
+              <Link variant="body2">
+                <RouterLink to="/">Already have an account? Sign in</RouterLink>
               </Link>
             </Grid>
           </Grid>
