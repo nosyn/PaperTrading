@@ -1,15 +1,29 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 
 // Themer wrapper && Material UI
 import Themer from "./theme";
-import { CssBaseline } from "@material-ui/core"; // Material-UI provides a CssBaseline component to kickstart an elegant, consistent, and simple baseline to build upon.
+import { Container, CssBaseline } from "@material-ui/core"; // Material-UI provides a CssBaseline component to kickstart an elegant, consistent, and simple baseline to build upon.
+import { makeStyles } from "@material-ui/core/styles"; // Material-UI provides a CssBaseline component to kickstart an elegant, consistent, and simple baseline to build upon.
+
+// Layout
+import Layout from "./layouts/Layout";
+
+// Routes
+import Routes from "./routes/Routes";
 
 // React Helmets
 import { Helmet, HelmetProvider } from "react-helmet-async";
-// Components
-import MultipleCards from "./MultipleCards";
+
+const useStyles = makeStyles({
+  container: {
+    marginTop: 10,
+  },
+});
 
 function App() {
+  const classes = useStyles();
+
   return (
     <HelmetProvider>
       <Helmet>
@@ -21,7 +35,13 @@ function App() {
       </Helmet>
       <Themer>
         <CssBaseline />
-        <MultipleCards />
+        <Container maxWidth="xl" className={classes.container}>
+          <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <Layout>
+              <Routes />
+            </Layout>
+          </BrowserRouter>
+        </Container>
       </Themer>
     </HelmetProvider>
   );

@@ -5,7 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 
 // ApolloProvider Wrapper
 import { ApolloProvider } from "@apollo/client";
-import client from "./graphql/index";
+import client from "./graphql/client";
 
 //robot font
 import "@fontsource/roboto";
