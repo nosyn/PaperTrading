@@ -7,11 +7,13 @@ import { Route, Switch } from "react-router-dom";
 import MultipleCards from "../MultipleCards";
 import NotFound from "../pages/NotFound";
 import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 
 const Routes = () => {
   return (
     <Switch>
-      <Route path="/" component={() => <LoginPage />} />
+      <Route exact path="/" component={() => <LoginPage />} />
+      <Route exact path="/register" component={() => <RegisterPage />} />
       <Route
         exact
         path="/cards"

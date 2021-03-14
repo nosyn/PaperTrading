@@ -8,6 +8,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 
 // Colors
 import { green, lightGreen, blue, lightBlue } from "@material-ui/core/colors";
+
 const Themer = ({ children }) => {
   const themePreference = "light";
 

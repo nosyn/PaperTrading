@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-const schema = yup.object().shape({
+const schemaValidation = yup.object().shape({
   firstName: yup.string().required(),
   age: yup.number().positive().integer().required(),
 });
 
-export default function LoginPage() {
+export const LoginPage = () => {
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaValidation),
   });
   const onSubmit = (data) => console.log(data);
 
@@ -25,4 +25,6 @@ export default function LoginPage() {
       <input type="submit" />
     </form>
   );
-}
+};
+
+export default LoginPage;
