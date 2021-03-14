@@ -25,6 +25,7 @@ const Themer = ({ children }) => {
       },
       colors: {
         white: "#FFFFF0",
+        red: "#FF0000",
       },
     },
   });

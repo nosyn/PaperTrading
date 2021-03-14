@@ -25,7 +25,7 @@ const argsSchema = yup
   .default(null)
   .nullable();
 
-module.exports = async (_parent, args, _context, _info) => {
+module.exports = async (_parent, args, context, _info) => {
   // Arguments validation
   try {
     await argsSchema.validate(args);
@@ -55,13 +55,16 @@ module.exports = async (_parent, args, _context, _info) => {
   const payload = { name: user.name, email: user.email };
 
   // Successfully login, sign the payload with secret key and create a token
-  const token = await jwt.sign(payload, keys.secretOrKey, {
+  const secretToken = await jwt.sign(payload, keys.secretOrKey, {
     expiresIn: 86400, // 1 day in seconds
   });
 
-  // Add to Bearer
-  const jwt_token = `Bearer ${token}`;
+  // add secretToken as cookie
+  context.reqResponse.cookie("secretToken", secretToken, {
+    httpOnly: true,
+    maxAge: 86400,
+  });
 
-  // Return a signed payload with jwt_token
-  return { ...payload, jwt_token };
+  // Return a signed payload
+  return payload;
 };

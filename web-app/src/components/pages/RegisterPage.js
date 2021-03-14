@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 // Apollo Hooks
 import { useMutation } from "@apollo/client";
-import REGISTER_USER from "../../graphql/mutations/register";
+import REGISTER_USER from "../../graphql/mutations/REGISTER_USER";
 // React hook forms
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,9 +23,11 @@ import {
   Typography,
   Container,
   makeStyles,
-  CssBaseline,
 } from "@material-ui/core";
-import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons/";
+import {
+  LockOpenOutlined as LockOpenOutlinedIcon,
+  FavoriteOutlined as FavoriteOutlinedIcon,
+} from "@material-ui/icons/";
 
 // Schema validation utils
 export const schemaValidation = yup.object().shape({
@@ -57,8 +59,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   invalid: {
-    color: "#FF0000",
+    color: theme.palette.colors.red,
     fontSize: 12,
+  },
+  heart: {
+    color: theme.palette.colors.red,
   },
 }));
 
@@ -67,7 +72,7 @@ export const RegisterPage = () => {
 
   // Top hooks
   // *Apollo hooks
-  const [registerUser, { loading, data, error }] = useMutation(REGISTER_USER, {
+  const [registerUser] = useMutation(REGISTER_USER, {
     onCompleted: (data) => {
       console.log("GRAPHQL Successful: ", data);
     },
@@ -82,28 +87,23 @@ export const RegisterPage = () => {
 
   // Submit handler
   const onSubmit = (data) => {
-    console.log("Submit with: ", data);
+    const userInfo = {
+      name: `${data.firstName} ${data.lastName}`,
+      email: data.email,
+      password: data.password,
+    };
     registerUser({
       variables: {
-        name: "Son Nguyen",
-        email: "testemail@gmail.com",
-        password: "conchim123123",
+        input: userInfo,
       },
     });
   };
 
-  useEffect(() => {
-    console.log("data:", data);
-    console.log("loading:", loading);
-    console.log("error:", error);
-  }, [data, loading, error]);
-
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOpenOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
@@ -203,7 +203,7 @@ export const RegisterPage = () => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -211,13 +211,14 @@ export const RegisterPage = () => {
         </form>
       </div>
       <Box mt={5}>
-        <Typography variant="body2" color="textSecondary" align="center">
-          {"Copyright © "}
-          <Link color="inherit" href="https://material-ui.com/">
-            Your Website
-          </Link>{" "}
-          {new Date().getFullYear()}
-          {"."}
+        <Typography variant="body2" color="textPrimary" align="center">
+          {"Made with  "}
+          <FavoriteOutlinedIcon className={classes.heart} />
+          {" by "}
+          <Link color="inherit" href="https://github.com/biem97">
+            Son Nguyen
+          </Link>
+          {` © ${new Date().getFullYear()}.`}
         </Typography>
       </Box>
     </Container>

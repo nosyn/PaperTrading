@@ -14,10 +14,10 @@ const jwtOptions = {
   passReqToCallback: true,
 };
 
-console.log(
-  "ExtractJwt.fromAuthHeaderAsBearerToken(): ",
-  ExtractJwt.fromAuthHeaderAsBearerToken()
-);
+// console.log(
+//   "ExtractJwt.fromAuthHeaderAsBearerToken(): ",
+//   ExtractJwt.fromAuthHeaderAsBearerToken()
+// );
 
 module.exports = (passport) => {
   passport.use(
