@@ -17,37 +17,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout = ({ children, noNavbar }) => {
+const Layout = ({ children }) => {
   const classes = useStyles();
-
-  // only render MainNavBar and NavDrawer if the noNavbar was not set (used on login)
-  const nav = !noNavbar && (
-    <>
-      <Navbar />
-    </>
-  );
 
   return (
     <div className={classes.root}>
-      {nav}
+      <Navbar />
       <main className={classes.mainContent}>{children}</main>
     </div>
   );
 };
 
 Layout.propTypes = {
-  // Allows for the nav bar to not be rendered
-  noNavbar: PropTypes.bool,
-
   // must have a child
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-};
-
-Layout.defaultProps = {
-  noNavbar: false,
 };
 
 export default Layout;

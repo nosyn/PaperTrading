@@ -28,17 +28,18 @@ import {
 import {
   LockOpenOutlined as LockOpenOutlinedIcon,
   FavoriteOutlined as FavoriteOutlinedIcon,
+  FavoriteBorder as FavoriteBorderIcon,
+  Favorite as FavoriteIcon,
 } from "@material-ui/icons/";
+import { red } from "@material-ui/core/colors";
 
 // Schema validation utils
 export const schemaValidation = yup.object().shape({
-  firstName: yup.string().required("* First name is required"),
-  lastName: yup.string().required("* Last name is required"),
-  email: yup
-    .string()
-    .email("* Has to be an email")
-    .required("* Email is required"),
-  password: yup.string().required("* Password is required"),
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  email: yup.string().email("Has to be an email").required("Email is required"),
+  password: yup.string().required("Password is required"),
+  checkbox: yup.bool().oneOf([true], "You must agree to register!!!"),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -59,9 +60,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  invalid: {
-    color: theme.palette.colors.red,
-    fontSize: 12,
+  errorMessage: {
+    color: red[900],
+    marginTop: theme.spacing(2),
   },
   heart: {
     color: theme.palette.colors.red,
@@ -74,14 +75,11 @@ export const RegisterPage = () => {
   const history = useHistory();
 
   // *Apollo hooks
-  const [registerUser] = useMutation(REGISTER_USER, {
-    onCompleted: (data) => {
-      console.log("GRAPHQL Successful: ", data);
+  const [registerUser, { error }] = useMutation(REGISTER_USER, {
+    onCompleted: () => {
       history.push("/");
     },
-    onError: (error) => {
-      console.log("GRAPHQL Error: ", error);
-    },
+    onError: () => {},
   });
   // *form hooks
   const { register, handleSubmit, errors, control } = useForm({
@@ -115,6 +113,8 @@ export const RegisterPage = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <Controller
+                error={!!errors?.firstName?.message}
+                helperText={errors.firstName?.message}
                 name="firstName"
                 autoComplete="fname"
                 variant="outlined"
@@ -126,12 +126,11 @@ export const RegisterPage = () => {
                 control={control}
                 as={<TextField />}
               />
-              <Typography className={classes.invalid}>
-                {errors.firstName?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Controller
+                error={!!errors?.lastName?.message}
+                helperText={errors.lastName?.message}
                 variant="outlined"
                 fullWidth
                 id="lastName"
@@ -142,12 +141,11 @@ export const RegisterPage = () => {
                 control={control}
                 as={<TextField />}
               />
-              <Typography className={classes.invalid}>
-                {errors.lastName?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12}>
               <Controller
+                error={!!errors?.email?.message}
+                helperText={errors.email?.message}
                 variant="outlined"
                 fullWidth
                 id="email"
@@ -158,12 +156,11 @@ export const RegisterPage = () => {
                 control={control}
                 as={<TextField />}
               />
-              <Typography className={classes.invalid}>
-                {errors.email?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12}>
               <Controller
+                error={!!errors?.password?.message}
+                helperText={errors.password?.message}
                 variant="outlined"
                 fullWidth
                 name="password"
@@ -175,25 +172,30 @@ export const RegisterPage = () => {
                 control={control}
                 as={<TextField />}
               />
-              <Typography className={classes.invalid}>
-                {errors.password?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12}>
-              {/* <Controller
-                label="I understand that all provided information are not important!"
-                control={control(
-                  <Checkbox value="allowExtraEmails" color="primary" />
-                )}
-                as={<FormControlLabel />}
-              /> */}
               <FormControlLabel
-                name="checkbox"
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I understand that all provided information are not important!"
+                name="checkboxLabel"
+                control={
+                  <Checkbox
+                    name="checkbox"
+                    icon={<FavoriteBorderIcon />}
+                    checkedIcon={<FavoriteIcon />}
+                    color="primary"
+                  />
+                }
+                label="I understand that all provided information are not important!!!"
                 inputRef={register}
               />
             </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              data-testid="error-message"
+              className={classes.errorMessage}
+            >
+              {errors?.checkbox?.message || error?.message}
+            </Typography>
           </Grid>
           <Button
             type="submit"
@@ -206,13 +208,12 @@ export const RegisterPage = () => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link variant="body2">
-                <RouterLink to="/">Already have an account? Sign in</RouterLink>
-              </Link>
+              <RouterLink to="/">Already have an account? Sign in</RouterLink>
             </Grid>
           </Grid>
         </form>
       </div>
+
       <Box mt={5}>
         <Typography variant="body2" color="textPrimary" align="center">
           {"Made with  "}
