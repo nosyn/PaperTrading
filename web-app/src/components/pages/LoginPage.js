@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, Link as RouterLink, Route } from "react-router-dom";
+import { useHistory, Link as RouterLink } from "react-router-dom";
 
 // Apollo Hooks
 import { useMutation } from "@apollo/client";
@@ -28,6 +28,7 @@ import {
   LockOutlined as LockOutlinedIcon,
   FavoriteOutlined as FavoriteOutlinedIcon,
 } from "@material-ui/icons/";
+import { red } from "@material-ui/core/colors";
 
 // Schema validation utils
 export const schemaValidation = yup.object().shape({
@@ -56,12 +57,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  invalid: {
-    color: "#FF0000",
-    fontSize: 12,
-  },
   heart: {
-    color: theme.palette.colors.red,
+    color: red[900],
+  },
+  errorMessage: {
+    color: red[900],
+    margin: theme.spacing(1, 0, 1, 0),
   },
 }));
 
@@ -71,14 +72,11 @@ export const LoginPage = () => {
 
   // Top hooks
   // *Apollo hooks
-  const [registerUser] = useMutation(LOGIN_USER, {
-    onCompleted: (data) => {
-      console.log("GRAPHQL Successful: ", data);
+  const [registerUser, { error }] = useMutation(LOGIN_USER, {
+    onCompleted: () => {
       history.push("/cards");
     },
-    onError: (error) => {
-      console.log("GRAPHQL Error: ", error);
-    },
+    onError: () => {},
   });
   // *form hooks
   const { handleSubmit, errors, control } = useForm({
@@ -111,6 +109,8 @@ export const LoginPage = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Controller
+                error={!!errors?.email?.message}
+                helperText={errors?.email?.message}
                 variant="outlined"
                 fullWidth
                 id="email"
@@ -121,12 +121,11 @@ export const LoginPage = () => {
                 control={control}
                 as={<TextField />}
               />
-              <Typography className={classes.invalid}>
-                {errors.email?.message}
-              </Typography>
             </Grid>
             <Grid item xs={12}>
               <Controller
+                error={!!errors?.password?.message}
+                helperText={errors?.password?.message}
                 variant="outlined"
                 fullWidth
                 name="password"
@@ -138,9 +137,6 @@ export const LoginPage = () => {
                 control={control}
                 as={<TextField />}
               />
-              <Typography className={classes.invalid}>
-                {errors.password?.message}
-              </Typography>
             </Grid>
           </Grid>
           <Button
@@ -152,13 +148,19 @@ export const LoginPage = () => {
           >
             Sign In
           </Button>
+          <Grid item xs={12}>
+            <Typography
+              data-testid="error-message"
+              className={classes.errorMessage}
+            >
+              {error?.message}
+            </Typography>
+          </Grid>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link variant="body2">
-                <RouterLink to="/register">
-                  Don't have an account? Sign up.
-                </RouterLink>
-              </Link>
+              <RouterLink to="/register">
+                Don't have an account? Sign up.
+              </RouterLink>
             </Grid>
           </Grid>
         </form>

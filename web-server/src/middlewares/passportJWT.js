@@ -17,6 +17,7 @@ const jwtOptions = {
   passReqToCallback: true,
 };
 
+// ! CURRENT FRONT END DON'T HAVE `AUTHORIZATION` HEADER SO THIS FUNCTION WON'T BE CALLED
 const verifyCallback = async (_req, payload, done) => {
   try {
     // BAH - This is what is actually getting stored in the context as the currentUser
