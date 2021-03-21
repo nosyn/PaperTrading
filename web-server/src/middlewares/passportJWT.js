@@ -7,7 +7,7 @@ const { ExtractJwt, Strategy } = require("passport-jwt");
 const passport = require("passport");
 // Secrets
 const keys = require("../../.env/keys");
-const User = require("../models/User");
+const User = require("../database/models/User");
 const jwt = require("jsonwebtoken");
 
 const jwtOptions = {

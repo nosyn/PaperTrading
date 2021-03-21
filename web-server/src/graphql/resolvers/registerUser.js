@@ -1,6 +1,6 @@
 const { UserInputError } = require("apollo-server-express"); // Error throw
 const yup = require("yup"); // Schema Validation
-const User = require("../../models/User"); // User Schema
+const User = require("../../database/models/User"); // User Schema
 const bcrypt = require("bcryptjs");
 
 const argsSchema = yup
@@ -52,6 +52,7 @@ module.exports = async (_parent, args, _context, _info) => {
         name,
         email,
         password: hash,
+        date: Date.now(),
       });
       userInfo
         .save()

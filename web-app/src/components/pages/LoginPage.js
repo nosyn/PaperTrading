@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory, Link as RouterLink } from "react-router-dom";
 
 // Apollo Hooks
@@ -8,6 +8,10 @@ import LOGIN_USER from "../../graphql/mutations/LOGIN_USER";
 // React hook forms
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+// Redux
+import { getUserSuccess, userSelector } from "../../state/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 // Yup for validation
 import * as yup from "yup";
@@ -21,8 +25,8 @@ import {
   Grid,
   Box,
   Typography,
-  Container,
   makeStyles,
+  Paper,
 } from "@material-ui/core";
 import {
   LockOutlined as LockOutlinedIcon,
@@ -40,8 +44,21 @@ export const schemaValidation = yup.object().shape({
 });
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    height: "100vh",
+  },
+  image: {
+    backgroundImage: "url(https://source.unsplash.com/random)",
+    backgroundRepeat: "no-repeat",
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
   paper: {
-    marginTop: theme.spacing(8),
+    margin: theme.spacing(8, 4),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -52,7 +69,10 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
+  },
+  textField: {
+    margin: theme.spacing(1, 0, 1, 0),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -62,22 +82,26 @@ const useStyles = makeStyles((theme) => ({
   },
   errorMessage: {
     color: red[900],
-    margin: theme.spacing(1, 0, 1, 0),
+    margin: theme.spacing(1, 0, 0, 0),
   },
 }));
 
 export const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const userState = useSelector(userSelector);
 
   // Top hooks
   // *Apollo hooks
   const [registerUser, { error }] = useMutation(LOGIN_USER, {
-    onCompleted: () => {
-      history.push("/cards");
+    onCompleted: (data) => {
+      dispatch(getUserSuccess(data.loginUser.email));
+      history.push("/");
     },
     onError: () => {},
   });
+
   // *form hooks
   const { handleSubmit, errors, control } = useForm({
     resolver: yupResolver(schemaValidation),
@@ -96,87 +120,94 @@ export const LoginPage = () => {
     });
   };
 
+  // ! REDIRECT TO ROOT FOR NOW
+  // TODO: find a way to use useLocation to forward back to the previous route
+  useEffect(() => {
+    if (userState.user) history.push("/dashboard");
+  }, [history, userState]);
+
   return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign In
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Controller
-                error={!!errors?.email?.message}
-                helperText={errors?.email?.message}
-                variant="outlined"
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                defaultValue=""
-                control={control}
-                as={<TextField />}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Controller
-                error={!!errors?.password?.message}
-                helperText={errors?.password?.message}
-                variant="outlined"
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                defaultValue=""
-                control={control}
-                as={<TextField />}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+    <Grid container component="main" className={classes.root}>
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Sign In
-          </Button>
-          <Grid item xs={12}>
+          </Typography>
+          <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              error={!!errors?.email?.message}
+              helperText={errors?.email?.message}
+              variant="outlined"
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              defaultValue=""
+              autoFocus
+              control={control}
+              as={<TextField className={classes.textField} />}
+            />
+
+            <Controller
+              error={!!errors?.password?.message}
+              helperText={errors?.password?.message}
+              variant="outlined"
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              defaultValue=""
+              control={control}
+              as={<TextField className={classes.textField} />}
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
             <Typography
               data-testid="error-message"
               className={classes.errorMessage}
             >
               {error?.message}
             </Typography>
-          </Grid>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <RouterLink to="/register">
-                Don't have an account? Sign up.
-              </RouterLink>
+            <Grid container>
+              <Grid item xs>
+                <RouterLink to="#">Forgot password?</RouterLink>
+              </Grid>
+              <Grid item>
+                <RouterLink to="/register">
+                  Don't have an account? Sign up.
+                </RouterLink>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Typography variant="body2" color="textPrimary" align="center">
-          {"Made with  "}
-          <FavoriteOutlinedIcon className={classes.heart} />
-          {" by "}
-          <Link color="inherit" href="https://github.com/biem97">
-            Son Nguyen
-          </Link>
-          {` © ${new Date().getFullYear()}.`}
-        </Typography>
-      </Box>
-    </Container>
+          </form>
+          <Box mt={5}>
+            <Typography variant="body2" color="textPrimary" align="center">
+              {"Made with  "}
+              <FavoriteOutlinedIcon className={classes.heart} />
+              {" by "}
+              <Link color="inherit" href="https://github.com/biem97">
+                Son Nguyen
+              </Link>
+              {` © ${new Date().getFullYear()}.`}
+            </Typography>
+          </Box>
+        </div>
+      </Grid>
+    </Grid>
   );
 };
 

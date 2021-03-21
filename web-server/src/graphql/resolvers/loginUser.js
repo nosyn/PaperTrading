@@ -1,9 +1,21 @@
+// Bcrypt
+const bcrypt = require("bcryptjs");
+
+// Errors
 const { UserInputError } = require("apollo-server-errors");
-const yup = require("yup"); // Schema Validation
-const bcrypt = require("bcryptjs"); // User Schema
-const User = require("../../models/User");
+
+// Validation
+const yup = require("yup");
+
+// User
+const User = require("../../database/models/User");
+
+// Private keys
 const keys = require("../../../.env/keys");
+
+//
 const jwt = require("jsonwebtoken");
+const { generateToken } = require("../utils/cryptoHelpers");
 
 const argsSchema = yup
   .object()
@@ -54,8 +66,8 @@ module.exports = async (_parent, args, context, _info) => {
   // Create a payload for user info
   const payload = { name: user.name, email: user.email };
 
-  // Successfully login, sign the payload with secret key and create a token
-  const secretToken = await jwt.sign(
+  // Successfully login, sign the payload with secret key and create a JWT token
+  const jwtToken = await jwt.sign(
     { _id: user._id, ...payload },
     keys.secretOrKey,
     {
@@ -63,11 +75,15 @@ module.exports = async (_parent, args, context, _info) => {
     }
   );
 
+  // create secretToken to be saved in cookie
+  const secretToken = generateToken(48);
+
   // add secretToken as cookie
   context.reqResponse.cookie("secretToken", secretToken, {
     httpOnly: true,
     maxAge: 86400,
   });
+
   // Return a signed payload
-  return { ...payload, name: secretToken };
+  return { ...payload, jwtToken };
 };

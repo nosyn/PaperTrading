@@ -11,8 +11,8 @@ const passportJWT = require("./middlewares/passportJWT");
 // Apollo Server
 const apolloServer = require("./graphql");
 
-// mongoose
-const mongoose = require("mongoose");
+// MongoDB Atlas
+const mongoAtlas = require("./database");
 
 // Configs
 const { serverConfigs } = require("./configs/serverConfigs");
@@ -30,6 +30,8 @@ app.use("/graphql", passportJWT.middleware);
 
 apolloServer.applyMiddleware({ app, cors: true });
 
+// Only for testing
+// TODO: FIND HOW TO IGNORE OTHER PATH EXCEPT /graphql
 app.get("/test", (_req, res, next) => {
   res.status(200).send("Hello");
 });
@@ -44,17 +46,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(serverConfigs.PORT, async () => {
-  // MongoDB Atlas Database connect
-  await mongoose
-    .connect(serverConfigs.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .then(() => console.log("MongoDB successfully connected"))
-    .catch((err) =>
-      console.error(`Can't connect to the MongoDB Atlas: ${err}`)
-    );
+app.listen(serverConfigs.PORT, () => {
+  // Connect to MongoDB Atlas Database
+  mongoAtlas();
 
   console.log(`Server is starting up`);
   console.log(`Listening on port ${serverConfigs.PORT}`);

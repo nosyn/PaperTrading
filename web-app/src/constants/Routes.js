@@ -1,6 +1,9 @@
 const ROUTES = Object.freeze({
-  login: "/login",
-  home: "/home",
+  ROOT: "/",
+  LOGIN: "/login",
+  REGISTER: "/register",
+  DASH_BOARD: "/dashboard",
+  CARDS: "/cards",
 });
 
 export default ROUTES;
