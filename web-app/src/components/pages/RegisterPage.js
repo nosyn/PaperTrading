@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useHistory, Link as RouterLink } from "react-router-dom";
 
+// Components
+import Footer from "../layouts/Footer";
+
 // Apollo Hooks
 import { useMutation } from "@apollo/client";
 import REGISTER_USER from "../../graphql/mutations/REGISTER_USER";
@@ -80,11 +83,8 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  heart: {
-    color: red[900],
-  },
   errorMessage: {
-    color: red[900],
+    color: theme.palette.colors.red,
     margin: theme.spacing(1, 0, 0, 0),
   },
 }));
@@ -233,15 +233,7 @@ export const RegisterPage = () => {
             </Grid>
           </form>
           <Box mt={5}>
-            <Typography variant="body2" color="textPrimary" align="center">
-              {"Made with  "}
-              <FavoriteOutlinedIcon className={classes.heart} />
-              {" by "}
-              <Link color="inherit" href="https://github.com/biem97">
-                Son Nguyen
-              </Link>
-              {` © ${new Date().getFullYear()}.`}
-            </Typography>
+            <Footer />
           </Box>
         </div>
       </Grid>

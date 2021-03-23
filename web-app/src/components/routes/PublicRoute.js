@@ -12,11 +12,13 @@ import { useSelector } from "react-redux";
 const PublicRoute = ({ component: Component, ...rest }) => {
   const userState = useSelector(userSelector);
 
+  // !TODO: Maybe redirect to errors page if userState.hasErrors is true
+  // !TODO: Right now just move back to login page
   return (
     <Route
       {...rest}
       render={({ location, props }) =>
-        !userState.user ? (
+        !userState.user || !userState.hasErrors ? (
           <Component {...props} />
         ) : (
           <Redirect

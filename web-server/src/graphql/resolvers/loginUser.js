@@ -15,7 +15,7 @@ const keys = require("../../../.env/keys");
 
 //
 const jwt = require("jsonwebtoken");
-const { generateToken } = require("../utils/cryptoHelpers");
+const { generateToken } = require("./utils/cryptoHelpers");
 
 const argsSchema = yup
   .object()

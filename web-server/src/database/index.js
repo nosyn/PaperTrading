@@ -1,6 +1,11 @@
 // mongoose
 const mongoose = require("mongoose");
 
+// Chalk
+const chalk = require("chalk");
+const log = console.log;
+const logError = console.error;
+
 // Configs
 const { serverConfigs } = require("../configs/serverConfigs");
 
@@ -10,9 +15,9 @@ const mongoAtlas = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    .then(() => console.log("MongoDB successfully connected"))
+    .then(() => log(chalk.green("MongoDB successfully connected")))
     .catch((err) =>
-      console.error(`Can't connect to the MongoDB Atlas: ${err}`)
+      logError(chalk.red(`Can't connect to the MongoDB Atlas: ${err}`))
     );
 };
 

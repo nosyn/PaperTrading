@@ -19,6 +19,7 @@ const userSlice = createSlice({
       state.hasErrors = false;
     },
     getUserFailure: (state) => {
+      state.user = null;
       state.loading = false;
       state.hasErrors = true;
     },

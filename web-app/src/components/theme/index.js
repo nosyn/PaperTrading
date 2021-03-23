@@ -7,7 +7,13 @@ import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 
 // Colors
-import { green, lightGreen, blue, lightBlue } from "@material-ui/core/colors";
+import {
+  green,
+  lightGreen,
+  blue,
+  lightBlue,
+  red,
+} from "@material-ui/core/colors";
 
 const Themer = ({ children }) => {
   const themePreference = "light";
@@ -25,7 +31,7 @@ const Themer = ({ children }) => {
       },
       colors: {
         white: "#FFFFF0",
-        red: "#FF0000",
+        red: red[900],
       },
     },
   });

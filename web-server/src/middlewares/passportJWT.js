@@ -37,9 +37,9 @@ passport.initialize();
 // returns a function(err,user,info)
 // doing it this way to aid unit testing
 const getAuthenticationCallback = (req, res, next) => (err, user) => {
-  // if (!!req.cookies && !!req.cookies.secretToken) {
-  //   req.secretToken = req.cookies.secretToken;
-  // }
+  if (!!req.cookies && !!req.cookies.secretToken) {
+    req.secretToken = req.cookies.secretToken;
+  }
   next();
 };
 

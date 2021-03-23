@@ -4,11 +4,8 @@ import React from "react";
 import Themer from "./theme";
 import { CssBaseline } from "@material-ui/core"; // Material-UI provides a CssBaseline component to kickstart an elegant, consistent, and simple baseline to build upon.
 
-// Layout
-import Layout from "./layouts/Layout";
-
 // Routes
-import Routes from "./routes/Routes";
+import InternalApp from "./InternalApp";
 
 // React Helmets
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -25,9 +22,7 @@ function App() {
       </Helmet>
       <Themer>
         <CssBaseline />
-        <Layout>
-          <Routes />
-        </Layout>
+        <InternalApp />
       </Themer>
     </HelmetProvider>
   );

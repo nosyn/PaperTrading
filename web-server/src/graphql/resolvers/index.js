@@ -1,5 +1,9 @@
+// Queries
 const rates = require("./rates");
 const ExchangeRates = require("./ExchangeRates");
+const getUser = require("./getUser");
+
+// Mutations
 const registerUser = require("./registerUser");
 const loginUser = require("./loginUser");
 
@@ -7,6 +11,7 @@ const loginUser = require("./loginUser");
 module.exports = {
   Query: {
     rates: rates,
+    getUser: getUser,
   },
   Mutation: {
     registerUser: registerUser,

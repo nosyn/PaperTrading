@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useHistory, Link as RouterLink } from "react-router-dom";
 
+// Components
+import Footer from "../layouts/Footer";
+
 // Apollo Hooks
 import { useMutation } from "@apollo/client";
 import LOGIN_USER from "../../graphql/mutations/LOGIN_USER";
@@ -21,18 +24,13 @@ import {
   Avatar,
   Button,
   TextField,
-  Link,
   Grid,
   Box,
   Typography,
   makeStyles,
   Paper,
 } from "@material-ui/core";
-import {
-  LockOutlined as LockOutlinedIcon,
-  FavoriteOutlined as FavoriteOutlinedIcon,
-} from "@material-ui/icons/";
-import { red } from "@material-ui/core/colors";
+import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons/";
 
 // Schema validation utils
 export const schemaValidation = yup.object().shape({
@@ -77,12 +75,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  heart: {
-    color: red[900],
-  },
   errorMessage: {
-    color: red[900],
-    margin: theme.spacing(1, 0, 0, 0),
+    color: theme.palette.colors.red,
+    margin: theme.spacing(1, 0, 1, 0),
   },
 }));
 
@@ -96,7 +91,7 @@ export const LoginPage = () => {
   // *Apollo hooks
   const [registerUser, { error }] = useMutation(LOGIN_USER, {
     onCompleted: (data) => {
-      dispatch(getUserSuccess(data.loginUser.email));
+      dispatch(getUserSuccess(data.loginUser));
       history.push("/");
     },
     onError: () => {},
@@ -195,15 +190,7 @@ export const LoginPage = () => {
             </Grid>
           </form>
           <Box mt={5}>
-            <Typography variant="body2" color="textPrimary" align="center">
-              {"Made with  "}
-              <FavoriteOutlinedIcon className={classes.heart} />
-              {" by "}
-              <Link color="inherit" href="https://github.com/biem97">
-                Son Nguyen
-              </Link>
-              {` © ${new Date().getFullYear()}.`}
-            </Typography>
+            <Footer />
           </Box>
         </div>
       </Grid>

@@ -2,6 +2,10 @@
 const express = require("express");
 const app = express();
 
+// Chalk
+const chalk = require("chalk");
+const log = console.log;
+
 // Middleware
 const cors = require("cors");
 const helmet = require("helmet");
@@ -30,12 +34,6 @@ app.use("/graphql", passportJWT.middleware);
 
 apolloServer.applyMiddleware({ app, cors: true });
 
-// Only for testing
-// TODO: FIND HOW TO IGNORE OTHER PATH EXCEPT /graphql
-app.get("/test", (_req, res, next) => {
-  res.status(200).send("Hello");
-});
-
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
   // Set static folder
@@ -50,6 +48,6 @@ app.listen(serverConfigs.PORT, () => {
   // Connect to MongoDB Atlas Database
   mongoAtlas();
 
-  console.log(`Server is starting up`);
-  console.log(`Listening on port ${serverConfigs.PORT}`);
+  log(chalk.blue(`Server is starting up`));
+  log(chalk.green(`Listening on port ${serverConfigs.PORT}`));
 });

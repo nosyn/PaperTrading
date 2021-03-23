@@ -5,6 +5,7 @@ const LOGIN_USER = gql`
     loginUser(input: $input) {
       name
       email
+      jwtToken
     }
   }
 `;

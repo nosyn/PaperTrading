@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "chalk": "^4.1.0",
     "chart.js": "^2.9.4",
     "graphql": "^15.5.0",
     "jwt-decode": "^3.1.2",
@@ -30,10 +31,10 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --coverage",
-    "test:ci": "react-scripts test --coverage --watchAll=false ",
+    "start": "react-scripts start --colors",
+    "build": "react-scripts build --colors",
+    "test": "react-scripts test --coverage --colors",
+    "test:ci": "react-scripts test --coverage --watchAll=false --colors",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
