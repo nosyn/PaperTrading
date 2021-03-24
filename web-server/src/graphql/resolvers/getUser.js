@@ -36,7 +36,7 @@ module.exports = async (_parent, _args, context, _info) => {
 
   // Create a payload for user info
   // const payload = { name: user.name, email: user.email };
-  // const payload = { name: "Son Nguyen", email: "biem97@gmail.com" };
+  const payload = { name: "Son Nguyen", email: "biem97@gmail.com" };
 
   // // Successfully login, sign the payload with secret key and create a JWT token
   // const jwtToken = await jwt.sign(
@@ -58,6 +58,6 @@ module.exports = async (_parent, _args, context, _info) => {
 
   // Return a signed payload
   // return { ...payload, jwtToken };
-  // return payload;
-  return null;
+  return payload;
+  // return null;
 };
