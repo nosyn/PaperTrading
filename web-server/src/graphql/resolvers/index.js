@@ -2,6 +2,7 @@
 const rates = require("./rates");
 const ExchangeRates = require("./ExchangeRates");
 const getUser = require("./getUser");
+const ping = require("./ping");
 
 // Mutations
 const registerUser = require("./registerUser");
@@ -12,6 +13,7 @@ module.exports = {
   Query: {
     rates: rates,
     getUser: getUser,
+    ping: ping,
   },
   Mutation: {
     registerUser: registerUser,

@@ -35,6 +35,7 @@ module.exports = gql`
     users: [User]
     rates(currency: String!): [ExchangeRate]
     getUser: User!
+    ping: String!
   }
 
   # The "Mutation" type is special: it lists all of the available mutations that

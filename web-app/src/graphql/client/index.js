@@ -1,10 +1,11 @@
 // Apollo Client
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
-import { fetch } from "node-fetch";
-import { apolloClientConfigs } from "../../configs";
+import { ApolloClient, InMemoryCache, from } from "@apollo/client";
+
+// Authentication middleware
+import authMiddleware from "./authMiddleware";
 
 export default new ApolloClient({
-  link: new HttpLink({ uri: apolloClientConfigs.uri, fetch }),
+  link: from([authMiddleware]),
   cache: new InMemoryCache(),
   defaultOptions: {
     query: {

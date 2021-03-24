@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 // Router
 import { Route, Redirect } from "react-router-dom";
@@ -31,6 +32,11 @@ const PublicRoute = ({ component: Component, ...rest }) => {
       }
     />
   );
+};
+
+PublicRoute.propTypes = {
+  // must be a react component
+  component: PropTypes.elementType,
 };
 
 export default PublicRoute;
