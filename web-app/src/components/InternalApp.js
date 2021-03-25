@@ -39,6 +39,7 @@ const Routes = () => {
       console.log(err);
       dispatch(getUserFailure());
     },
+    fetchPolicy: "network-only",
   });
 
   if (loading) return <div>Loading</div>;

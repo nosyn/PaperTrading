@@ -20,5 +20,4 @@ export default new ApolloClient({
       fetchPolicy: "no-cache",
     },
   },
-  credentials: "include",
 });

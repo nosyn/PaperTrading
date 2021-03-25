@@ -21,7 +21,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   Box,
   Typography,
@@ -30,11 +29,9 @@ import {
 } from "@material-ui/core";
 import {
   LockOpenOutlined as LockOpenOutlinedIcon,
-  FavoriteOutlined as FavoriteOutlinedIcon,
   FavoriteBorder as FavoriteBorderIcon,
   Favorite as FavoriteIcon,
 } from "@material-ui/icons/";
-import { red } from "@material-ui/core/colors";
 
 // Redux
 import { userSelector } from "../../state/slices/userSlice";

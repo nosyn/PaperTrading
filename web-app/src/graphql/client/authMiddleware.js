@@ -9,13 +9,14 @@ import apolloClientConfigs from "../../configs";
 export const authMiddleware = new ApolloLink((operation, forward) => {
   // get the authentication jwt token from jwt manager if it exists
   const token = jwtManager.getJWT();
+  console.log(token);
   if (token) {
     const oldHeaders = operation.getContext().headers || {};
     // set the headers to the context
     operation.setContext({
       headers: {
         ...oldHeaders,
-        authorization: `Bearer ${token}` || null,
+        authorization: `Bearer ${token}`,
       },
     });
   }

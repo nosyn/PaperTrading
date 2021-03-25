@@ -81,7 +81,7 @@ module.exports = async (_parent, args, context, _info) => {
   // add secretToken as cookie
   context.reqResponse.cookie("secretToken", secretToken, {
     httpOnly: true,
-    maxAge: 86400,
+    maxAge: 31557600,
   });
 
   // Return a signed payload
