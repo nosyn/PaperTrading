@@ -3,6 +3,10 @@ const yup = require("yup"); // Schema Validation
 const User = require("../../database/models/User"); // User Schema
 const bcrypt = require("bcryptjs");
 
+// Chalk
+const chalk = require("chalk");
+const log = console.log;
+
 const argsSchema = yup
   .object()
   .shape({
@@ -56,7 +60,7 @@ module.exports = async (_parent, args, _context, _info) => {
       });
       userInfo
         .save()
-        .then((user) => console.log(`User: ${user.email} is registered!!!`))
+        .then((user) => log(chalk.blue(`User: ${user.email} is registered!!!`)))
         .catch((error) => {
           throw new Error(error);
         });

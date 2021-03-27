@@ -19,6 +19,9 @@ import { useDispatch, useSelector } from "react-redux";
 // Yup for validation
 import * as yup from "yup";
 
+// JWT decode
+import jwt_decode from "jwt-decode";
+
 // Material UI
 import {
   Avatar,
@@ -89,12 +92,15 @@ export const LoginPage = () => {
 
   // Top hooks
   // *Apollo hooks
-  const [registerUser, { error }] = useMutation(LOGIN_USER, {
+  const [loginUser, { error }] = useMutation(LOGIN_USER, {
     onCompleted: (data) => {
-      dispatch(getUserSuccess(data.loginUser));
+      const decoded = jwt_decode(data?.loginUser?.jwtToken);
+      dispatch(getUserSuccess(decoded));
       history.push("/");
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log("error: ", error);
+    },
   });
 
   // *form hooks
@@ -108,7 +114,7 @@ export const LoginPage = () => {
       email: data.email,
       password: data.password,
     };
-    registerUser({
+    loginUser({
       variables: {
         input: userInfo,
       },

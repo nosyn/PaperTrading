@@ -10,11 +10,8 @@ const yup = require("yup");
 // User
 const User = require("../../database/models/User");
 
-// Private keys
-const keys = require("../../../.env/keys");
-
-//
-const jwt = require("jsonwebtoken");
+// Server configs
+const { signJWT } = require("../../services/authentication/jwtService");
 const { generateToken } = require("./utils/cryptoHelpers");
 
 const argsSchema = yup
@@ -64,16 +61,10 @@ module.exports = async (_parent, args, context, _info) => {
   }
 
   // Create a payload for user info
-  const payload = { name: user.name, email: user.email };
+  const payload = { _id: user._id, name: user.name, email: user.email };
 
   // Successfully login, sign the payload with secret key and create a JWT token
-  const jwtToken = await jwt.sign(
-    { _id: user._id, ...payload },
-    keys.secretOrKey,
-    {
-      expiresIn: 86400, // 1 day in seconds
-    }
-  );
+  const jwtToken = await signJWT(payload, 86400);
 
   // create secretToken to be saved in cookie
   const secretToken = generateToken(48);
@@ -85,5 +76,5 @@ module.exports = async (_parent, args, context, _info) => {
   });
 
   // Return a signed payload
-  return { ...payload, jwtToken };
+  return { jwtToken };
 };

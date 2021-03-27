@@ -12,20 +12,13 @@ module.exports = gql`
     name: String
   }
 
-  type User {
-    name: String!
-    email: String!
-  }
-
   type RegisterUser {
     name: String!
     email: String!
     message: String!
   }
 
-  type LoginUser {
-    name: String!
-    email: String!
+  type User {
     jwtToken: String!
   }
 
@@ -42,7 +35,7 @@ module.exports = gql`
   # clients can execute, along with the return type for each.
   type Mutation {
     registerUser(input: RegisterInput!): RegisterUser!
-    loginUser(input: LoginInput!): LoginUser!
+    loginUser(input: LoginInput!): User!
   }
 
   # The "Subscription" type is special: it lists all of the available subscriptions that

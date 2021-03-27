@@ -9,7 +9,6 @@ import apolloClientConfigs from "../../configs";
 export const authMiddleware = new ApolloLink((operation, forward) => {
   // get the authentication jwt token from jwt manager if it exists
   const token = jwtManager.getJWT();
-  console.log(token);
   if (token) {
     const oldHeaders = operation.getContext().headers || {};
     // set the headers to the context
@@ -29,6 +28,9 @@ export const authMiddleware = new ApolloLink((operation, forward) => {
       switch (operation.operationName) {
         case "LOGIN_USER":
           jwtManager.setJWT(data?.loginUser?.jwtToken);
+          break;
+        case "GET_USER":
+          jwtManager.setJWT(data?.getUser?.jwtToken);
           break;
         // case "REFRESH_MY_JWT":
         //   jwtManager.setJWT(data?.loginUser?.jwt);

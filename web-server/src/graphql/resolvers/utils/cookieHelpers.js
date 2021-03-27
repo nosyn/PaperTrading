@@ -6,9 +6,7 @@ const serverConfigs = require("../../../configs/serverConfigs");
 // only return the serverConfig.COOKIE_NAME value
 // decodeURIComponent (may be encoded)
 const extractTokenFromCookie = (cookie) => {
-  // console.log("cookieeeee: ", cookie);
   if (!cookie) return null;
-  // console.log("cookie: ", cookie);
   return cookie.split(":").reduce((acc, cookieKeyValue) => {
     const parts = cookieKeyValue.split("=");
     return parts[0] === serverConfigs.COOKIE_NAME
@@ -18,18 +16,15 @@ const extractTokenFromCookie = (cookie) => {
 };
 
 const getCookie = (context) => {
-  console.log(Object.keys(context.reqResponse.req.cookies));
-  console.log(context.reqResponse.req);
   // Will error out if the context did not receive a cookie
   try {
     const {
       reqResponse: {
         req: {
-          cookies: { cookie },
+          headers: { cookie },
         },
       },
     } = context;
-
     return cookie;
   } catch (error) {
     return null;
@@ -38,9 +33,7 @@ const getCookie = (context) => {
 
 const getSecretTokenFromCookie = (context) => {
   if (!context) return null;
-  console.log("I'm hereeee");
   const cookie = getCookie(context);
-  console.log(cookie);
   return extractTokenFromCookie(cookie);
 };
 

@@ -7,21 +7,20 @@
 const { ExtractJwt, Strategy } = require("passport-jwt");
 const passport = require("passport");
 
-// Secrets
-const keys = require("../../.env/keys");
+// Server configs
+const { JWT_ISSUER, SECRET_KEY } = require("../configs/serverConfigs");
 const User = require("../database/models/User");
 
 const jwtOptions = {
-  issuer: "Son Nguyen",
-  secretOrKey: keys.secretOrKey,
+  issuer: JWT_ISSUER,
+  secretOrKey: SECRET_KEY,
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   passReqToCallback: true,
 };
 
 // ! CURRENT FRONT END DON'T HAVE `AUTHORIZATION` HEADER SO THIS FUNCTION WON'T BE CALLED
 const verifyCallback = async (_req, payload, done) => {
-  console.log("I'm hereee 3");
-  console.log("verifyCallback: ", payload);
+  // verify the JWT is sent with the valid jwtOptions -> payload -> user -> getAuthenticationCallback
   try {
     const user = await User.findById(payload._id);
     return user ? done(null, user) : done(null, null);
@@ -36,20 +35,18 @@ const jwtStrategy = new Strategy(jwtOptions, verifyCallback);
 passport.use(jwtStrategy);
 passport.initialize();
 
-// returns a function(err,user,info)
-// doing it this way to aid unit testing
-const getAuthenticationCallback = (req, res, next) => (err, user) => {
-  console.log(user);
-  console.log("I'm here 333");
+const getAuthenticationCallback = (req, res, next) => (_err, user) => {
+  // set the currentUser
+  if (user) {
+    req.currentUser = user;
+  }
   if (!!req.cookies && !!req.cookies.secretToken) {
     req.secretToken = req.cookies.secretToken;
   }
-  console.log(req.secretToken);
   next();
 };
 
 const middleware = (req, res, next) => {
-  console.log("I'm here 1");
   const passportMiddleware = passport.authenticate(
     "jwt",
     { session: false },

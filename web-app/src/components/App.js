@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 // Themer wrapper && Material UI
 import Themer from "./theme";
@@ -18,17 +19,22 @@ import { useQuery } from "@apollo/client";
 import { getUserSuccess, getUserFailure } from "../state/slices/userSlice";
 import { useDispatch } from "react-redux";
 
+// JWT decode
+import jwt_decode from "jwt-decode";
+
 function App() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { loading } = useQuery(GET_USER, {
-    onCompleted: ({ name, email }) => {
+    onCompleted: (data) => {
       // TODO: update to new method or decode from jwt_decode
-      const userInfo = { name, email };
-      dispatch(getUserSuccess(userInfo));
+      const decoded = jwt_decode(data?.getUser?.jwtToken);
+      dispatch(getUserSuccess(decoded));
+      history.push("/");
     },
-    onError: (err) => {
-      console.log(err);
+    onError: () => {
+      console.log("Redirect to login page ^_^ Please login again!");
       dispatch(getUserFailure());
     },
   });

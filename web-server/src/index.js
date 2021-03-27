@@ -19,7 +19,7 @@ const apolloServer = require("./graphql");
 const mongoAtlas = require("./database");
 
 // Configs
-const { serverConfigs } = require("./configs/serverConfigs");
+const serverConfigs = require("./configs/serverConfigs");
 
 // Apply middleware for express
 app.use(cors());

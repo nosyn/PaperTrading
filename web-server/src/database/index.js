@@ -7,7 +7,7 @@ const log = console.log;
 const logError = console.error;
 
 // Configs
-const { serverConfigs } = require("../configs/serverConfigs");
+const serverConfigs = require("../configs/serverConfigs");
 
 const mongoAtlas = async () => {
   await mongoose
