@@ -17,6 +17,11 @@
     "postpublish": "pinst --enable",
     "lint": "eslint --fix web-app/src && eslint --fix web-server/src"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
   "devDependencies": {
     "eslint": "^7.23.0",
     "eslint-config-airbnb": "^18.2.1",
