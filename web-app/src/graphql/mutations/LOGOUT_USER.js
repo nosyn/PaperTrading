@@ -1,15 +1,15 @@
 import { gql } from "@apollo/client";
 
-// Fragments
+// fragments
 import UserInfoFragment from "../fragments/UserInfoFragment";
 
-const REGISTER_USER = gql`
+const LOGOUT_USER = gql`
   ${UserInfoFragment}
-  mutation REGISTER_USER($input: RegisterInput!) {
-    registerUser(input: $input) {
+  mutation LOGOUT_USER {
+    logoutUser {
       ...UserInfoFragment
     }
   }
 `;
 
-export default REGISTER_USER;
+export default LOGOUT_USER;

@@ -4,6 +4,7 @@
 // ! For now, we will save the JWT into the localStorage
 
 const jwtManager = {
+  clearJWT: () => localStorage.removeItem("jwtToken"),
   setJWT: (newJWT) => localStorage.setItem("jwtToken", newJWT),
   getJWT: () => localStorage.getItem("jwtToken"),
 };

@@ -29,6 +29,9 @@ export const authMiddleware = new ApolloLink((operation, forward) => {
         case "LOGIN_USER":
           jwtManager.setJWT(data?.loginUser?.jwtToken);
           break;
+        case "LOGOUT_USER":
+          jwtManager.clearJWT();
+          break;
         case "GET_USER":
           jwtManager.setJWT(data?.getUser?.jwtToken);
           break;

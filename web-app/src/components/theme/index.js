@@ -13,6 +13,7 @@ import {
   blue,
   lightBlue,
   red,
+  lime,
 } from "@material-ui/core/colors";
 
 const Themer = ({ children }) => {
@@ -32,6 +33,7 @@ const Themer = ({ children }) => {
       colors: {
         white: "#FFFFF0",
         red: red[900],
+        lime: lime[500],
       },
     },
   });

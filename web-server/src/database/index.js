@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 
 // Chalk
 const chalk = require("chalk");
-const log = console.log;
+
+const {log} = console;
 const logError = console.error;
 
 // Configs

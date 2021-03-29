@@ -1,0 +1,61 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "node": true,
+    "es2021": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+    "plugin:testing-library/recommended",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "jest", "testing-library", "jest-dom"],
+  "rules": {
+    // Default
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+
+    // React App
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+
+    // Testing library
+    "testing-library/await-async-query": "error",
+    "testing-library/no-await-sync-query": "error",
+    "testing-library/no-debug": "warn",
+    "jest-dom/prefer-checked": "error",
+    "jest-dom/prefer-enabled-disabled": "error",
+    "jest-dom/prefer-required": "error",
+    "jest-dom/prefer-to-have-attribute": "error",
+
+    // Jest testing
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+
+    // Exception
+    "no-underscore-dangle": ["error", { "allow": ["_place"] }]
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "web-app/node_modules/",
+    "web-server/node_modules/"
+  ]
+}

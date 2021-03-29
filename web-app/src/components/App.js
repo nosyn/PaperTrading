@@ -34,7 +34,7 @@ function App() {
       history.push("/");
     },
     onError: () => {
-      console.log("Redirect to login page ^_^ Please login again!");
+      console.error("Redirect to login page ^_^ Please login again!");
       dispatch(getUserFailure());
     },
   });

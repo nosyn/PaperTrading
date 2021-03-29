@@ -6,7 +6,7 @@ const contextSchema = require("./utils/contextSchema");
 
 // Services
 const { getSecretTokenFromCookie } = require("./utils/cookieHelpers");
-const { signJWT } = require("../../services/authentication/jwtService");
+const serverConfigs = require("../../configs/serverConfigs");
 
 module.exports = async (_parent, _args, context, _info) => {
   // VALIDATE CONTEXT
@@ -19,16 +19,17 @@ module.exports = async (_parent, _args, context, _info) => {
   // Grab the secret token from the cookie/context to allow user to refresh the page
   const secretToken = getSecretTokenFromCookie(context);
   if (!secretToken) {
-    throw new UserInputError("Unable to retrieve `secretToken`");
+    throw new UserInputError("Unable to retrieve token from request");
   }
 
-  const { currentUser } = context;
+  context.reqResponse.clearCookie(serverConfigs.REFRESH_TOKEN);
+
+  const {currentUser} = context;
   const payload = {
-    _id: currentUser._id,
     name: currentUser.name,
     email: currentUser.email,
   };
 
-  const jwtToken = signJWT(payload, 86400);
-  return { jwtToken };
+  console.log("payload: ", payload);
+  return payload;
 };

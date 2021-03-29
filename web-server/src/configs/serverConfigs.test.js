@@ -15,7 +15,7 @@ describe("configs", () => {
       expect(serverConfigs.PORT).toEqual(5000);
     });
 
-    //https://stackoverflow.com/questions/48033841/test-process-env-with-jest
+    // https://stackoverflow.com/questions/48033841/test-process-env-with-jest
     it.todo("PORT values is 1234 if process.env.PORT = 1234");
   });
 });

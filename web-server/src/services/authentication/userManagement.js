@@ -4,7 +4,7 @@ const activeUser = (payload) => ({
   expiredTime: Date.now() + payload.expiredTimeInMilliseconds,
 });
 
-let activeUsers = new Array();
+const activeUsers = [];
 
 const userManagement = {
   getActiveUsers: () => activeUsers,

@@ -13,7 +13,7 @@ import {
 import { ChevronLeft as ChevronLeftIcon } from "@material-ui/icons";
 
 // Constants
-import uiConfigs from "../../constants/uiConfigs";
+import uiConfigs from "../configs/uiConfigs";
 
 // !TODO: Remove later
 import { mainListItems, secondaryListItems } from "./listItems";

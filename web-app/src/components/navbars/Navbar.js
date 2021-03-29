@@ -1,29 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Material UI
 import clsx from "clsx";
 import {
-  Drawer,
   AppBar,
   Toolbar,
-  List,
   Typography,
-  Divider,
   IconButton,
   Badge,
   makeStyles,
 } from "@material-ui/core";
-import {
-  Menu as MenuIcon,
-  ChevronLeft as ChevronLeftIcon,
-  Notifications as NotificationsIcon,
-} from "@material-ui/icons";
+import { Menu as MenuIcon } from "@material-ui/icons";
 
 // Constants
-import uiConfigs from "../../constants/uiConfigs";
+import uiConfigs from "../configs/uiConfigs";
 
 // Components
 import NavbarDrawer from "./NavbarDrawer";
+import UserMenu from "./UserMenu";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -57,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -89,11 +83,7 @@ const Navbar = () => {
             Dashboard
           </Typography>
 
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <UserMenu setOpen={setOpen} />
         </Toolbar>
       </AppBar>
       <NavbarDrawer open={open} setOpen={setOpen} />

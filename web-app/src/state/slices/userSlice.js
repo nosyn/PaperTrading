@@ -10,9 +10,6 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    getUser: (state) => {
-      state.loading = true;
-    },
     getUserSuccess: (state, { payload }) => {
       state.user = payload;
       state.loading = false;
@@ -26,7 +23,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { getUser, getUserSuccess, getUserFailure } = userSlice.actions;
+export const { getUserSuccess, getUserFailure } = userSlice.actions;
 
 export const userSelector = (state) => state.user;
 export default userSlice.reducer;

@@ -3,13 +3,13 @@ const serverConfigs = require("../../../configs/serverConfigs");
 // Cookie is a string
 // Split string on ;
 // split each new value on =
-// only return the serverConfig.COOKIE_NAME value
+// only return the serverConfig.REFRESH_TOKEN value
 // decodeURIComponent (may be encoded)
 const extractTokenFromCookie = (cookie) => {
   if (!cookie) return null;
   return cookie.split(":").reduce((acc, cookieKeyValue) => {
     const parts = cookieKeyValue.split("=");
-    return parts[0] === serverConfigs.COOKIE_NAME
+    return parts[0] === serverConfigs.REFRESH_TOKEN
       ? decodeURIComponent(parts[1])
       : acc;
   }, "");

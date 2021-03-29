@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useHistory, Link as RouterLink } from "react-router-dom";
+import React from "react";
+import { useHistory, useLocation, Link as RouterLink } from "react-router-dom";
 
 // Components
 import Footer from "../layouts/Footer";
@@ -13,8 +13,8 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 // Redux
-import { getUserSuccess, userSelector } from "../../state/slices/userSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { getUserSuccess } from "../../state/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 // Yup for validation
 import * as yup from "yup";
@@ -82,13 +82,17 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.colors.red,
     margin: theme.spacing(1, 0, 1, 0),
   },
+  infoMessage: {
+    color: theme.palette.colors.lime,
+    margin: theme.spacing(1, 0, 1, 0),
+  },
 }));
 
 export const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const userState = useSelector(userSelector);
 
   // Top hooks
   // *Apollo hooks
@@ -99,7 +103,7 @@ export const LoginPage = () => {
       history.push("/");
     },
     onError: (error) => {
-      console.log("error: ", error);
+      console.error("error: ", error);
     },
   });
 
@@ -120,12 +124,6 @@ export const LoginPage = () => {
       },
     });
   };
-
-  // ! REDIRECT TO ROOT FOR NOW
-  // TODO: find a way to use useLocation to forward back to the previous route
-  useEffect(() => {
-    if (userState.user) history.push("/dashboard");
-  }, [history, userState]);
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -180,9 +178,11 @@ export const LoginPage = () => {
             </Button>
             <Typography
               data-testid="error-message"
-              className={classes.errorMessage}
+              className={
+                error?.message ? classes.errorMessage : classes.infoMessage
+              }
             >
-              {error?.message}
+              {error?.message || location?.state?.message}
             </Typography>
             <Grid container>
               <Grid item xs>

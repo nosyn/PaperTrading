@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory, Link as RouterLink } from "react-router-dom";
 
 // Components
@@ -90,12 +90,16 @@ export const RegisterPage = () => {
   // Top hooks
   const classes = useStyles();
   const history = useHistory();
-  const userState = useSelector(userSelector);
 
   // *Apollo hooks
   const [registerUser, { error }] = useMutation(REGISTER_USER, {
     onCompleted: () => {
-      history.push("/login");
+      history.push({
+        pathname: "/login",
+        state: {
+          message: "Register successfully. Please login <3",
+        },
+      });
     },
     onError: () => {},
   });
@@ -117,12 +121,6 @@ export const RegisterPage = () => {
       },
     });
   };
-
-  // ! REDIRECT TO ROOT FOR NOW
-  // TODO: find a way to use useLocation to forward back to the previous route
-  useEffect(() => {
-    if (userState.user) history.push("/dashboard");
-  }, [history, userState]);
 
   return (
     <Grid container component="main" className={classes.root}>

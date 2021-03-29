@@ -1,10 +1,12 @@
 // Initial express app server and PORT
 const express = require("express");
+
 const app = express();
 
 // Chalk
 const chalk = require("chalk");
-const log = console.log;
+
+const { log } = console;
 
 // Middleware
 const cors = require("cors");
@@ -34,20 +36,10 @@ app.use("/graphql", passportJWT.middleware);
 
 apolloServer.applyMiddleware({ app, cors: true });
 
-// Serve static assets if in production
-if (process.env.NODE_ENV === "production") {
-  // Set static folder
-  app.use(express.static("client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "web-app", "build", "index.html"));
-  });
-}
-
 app.listen(serverConfigs.PORT, () => {
   // Connect to MongoDB Atlas Database
   mongoAtlas();
 
-  log(chalk.blue(`Server is starting up`));
+  log(chalk.blue("Server is starting up"));
   log(chalk.green(`Listening on port ${serverConfigs.PORT}`));
 });

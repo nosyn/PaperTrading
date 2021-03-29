@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const {
   JWT_EXPIRES_DURATION,
   JWT_ISSUER,
@@ -5,7 +6,6 @@ const {
 } = require("../../configs/serverConfigs");
 
 // JWT
-const jwt = require("jsonwebtoken");
 
 // * sign the jwt with payload and duration time
 const signJWT = (payload, jwtDurationArg) => {
@@ -22,7 +22,7 @@ const signJWT = (payload, jwtDurationArg) => {
 
 // * verify the jwt
 const verifyJWT = (jwtToken, options) => {
-  if (!token) {
+  if (!jwtToken) {
     throw new Error("Invalid argument: JWT token is required!");
   }
   return jwt.verify(jwtToken, options);
